@@ -16,6 +16,7 @@ import androidx.core.content.ContextCompat;
  * Game manages all objects in the game and is responsible for running all states and rendering of game
  */
  class Game extends SurfaceView implements SurfaceHolder.Callback {
+    private final Joystick joystick;
     private final Player player;
     private GameLoop gameLoop;
 
@@ -28,7 +29,8 @@ import androidx.core.content.ContextCompat;
 
         gameLoop = new GameLoop(this, surfaceHolder);
 
-        //Initialize player
+        //Initialize game objects
+        joystick = new Joystick(context,275,700, 70, 30);
         player = new Player(getContext(), 500, 500, 30);
 
         setFocusable(true);
@@ -40,8 +42,18 @@ import androidx.core.content.ContextCompat;
         //Handel touch event actions
         switch(event.getAction()){
             case MotionEvent.ACTION_DOWN:
+                if(joystick.isPressed((double) event.getX(), (double) event.getY())){
+                    joystick.setIsPressed(true);
+                }
+                return true;
             case MotionEvent.ACTION_MOVE:
-                player.setPosition((double) event.getX(), (double) event.getY());
+                if(joystick.getIsPressed() == true) {
+                    joystick.setActuator((double) event.getX(), (double) event.getY());
+                }
+                return true;
+            case MotionEvent.ACTION_UP:
+                joystick.setIsPressed(false);
+                joystick.restActuator();
                 return true;
         }
         return super.onTouchEvent(event);
@@ -68,6 +80,7 @@ import androidx.core.content.ContextCompat;
         drawUPS(canvas);
         drawFPS(canvas);
 
+       joystick.draw(canvas);
         player.draw(canvas);
     }
 
@@ -91,6 +104,7 @@ import androidx.core.content.ContextCompat;
 
     public void update(){
         //update game state
-        player.update();
+        joystick.update();
+        player.update(joystick);
     }
 }
