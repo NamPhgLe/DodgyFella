@@ -21,12 +21,12 @@ public class Joystick {
     private  int innerCircleCenterPosX;
     private  int innerCircleCenterPosY;
 
-    private double joystickCneterToTouchDistance;
+    private double joystickCenterToTouchDistance;
     private boolean isPressed;
     private double actuatorX;
     private double actuatorY;
 
-    public Joystick(Context context, int centerPosX, int centerPosY, int outCircleRaduis, int innerCircleRaduis) {
+    public Joystick(Context context, int centerPosX, int centerPosY, int outCircleRadius, int innerCircleRadius) {
         //joyStick position
         outCircleCenterPosX = centerPosX;
         outCircleCenterPosY = centerPosY;
@@ -34,13 +34,13 @@ public class Joystick {
         innerCircleCenterPosY = centerPosY;
 
         //radi of circle
-        this.outCircleRadius = outCircleRaduis;
-        this.innerCircleRadius = innerCircleRaduis;
+        this.outCircleRadius = outCircleRadius;
+        this.innerCircleRadius = innerCircleRadius;
 
         //paint circles
         outCirclePaint = new Paint();
-        int outCicleColor = ContextCompat.getColor(context, R.color.outCircle);
-        outCirclePaint.setColor(outCicleColor);
+        int outCircleColor = ContextCompat.getColor(context, R.color.outCircle);
+        outCirclePaint.setColor(outCircleColor);
 
         innerCirclePaint = new Paint();
         int inCircleColor = ContextCompat.getColor(context, R.color.inCircle);
@@ -63,9 +63,9 @@ public class Joystick {
 
     }
     public boolean isPressed(double touchPosX, double touchPosY) {
-        joystickCneterToTouchDistance = Math.sqrt(Math.pow(outCircleCenterPosX - touchPosX, 2) +
-                                        Math.pow(outCircleCenterPosY - touchPosY, 2));
-        return joystickCneterToTouchDistance < outCircleRadius;
+        joystickCenterToTouchDistance = Math.sqrt(Math.pow(outCircleCenterPosX - touchPosX, 2) +
+                Math.pow(outCircleCenterPosY - touchPosY, 2));
+        return joystickCenterToTouchDistance < outCircleRadius;
     }
 
     public void setIsPressed(boolean isPressed) {
@@ -82,8 +82,8 @@ public class Joystick {
         double deltaDistance = Math.sqrt(Math.pow(deltaX, 2) + Math.pow(deltaY, 2));
 
         if(deltaDistance < outCircleRadius){
-             actuatorX = deltaX/outCircleRadius;
-             actuatorY = deltaY/outCircleRadius;
+            actuatorX = deltaX/outCircleRadius;
+            actuatorY = deltaY/outCircleRadius;
         } else {
             actuatorX = deltaX/deltaDistance;
             actuatorY = deltaY/deltaDistance;

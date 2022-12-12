@@ -12,14 +12,22 @@ import android.view.View;
 import androidx.annotation.NonNull;
 import androidx.core.content.ContextCompat;
 
+import com.example.dogdyfella.object.Circle;
+import com.example.dogdyfella.object.Enemy;
+
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.List;
+
 /**
  * Game manages all objects in the game and is responsible for running all states and rendering of game
  */
- class Game extends SurfaceView implements SurfaceHolder.Callback {
-    private final Joystick joystick;
-    private final Player player;
+class Game extends SurfaceView implements SurfaceHolder.Callback {
+    private Joystick joystick;
+    private Player player;
+   // private final Enemy enemy;
     private GameLoop gameLoop;
-
+    private List<Enemy> enemyList = new ArrayList<Enemy>();
     public Game(Context context) {
         super(context);
 
@@ -31,7 +39,8 @@ import androidx.core.content.ContextCompat;
 
         //Initialize game objects
         joystick = new Joystick(context,275,700, 70, 30);
-        player = new Player(getContext(), 500, 500, 30);
+        player = new Player(getContext(), joystick, 500, 500, 30);
+       // enemy = new Enemy(getContext(), player, 500, 200, 30);
 
         setFocusable(true);
     }
@@ -44,6 +53,7 @@ import androidx.core.content.ContextCompat;
             case MotionEvent.ACTION_DOWN:
                 if(joystick.isPressed((double) event.getX(), (double) event.getY())){
                     joystick.setIsPressed(true);
+                    return true;
                 }
                 return true;
             case MotionEvent.ACTION_MOVE:
@@ -80,8 +90,11 @@ import androidx.core.content.ContextCompat;
         drawUPS(canvas);
         drawFPS(canvas);
 
-       joystick.draw(canvas);
+        joystick.draw(canvas);
         player.draw(canvas);
+        for(Enemy enemy : enemyList){
+            enemy.draw(canvas);
+        }
     }
 
     public void drawUPS(Canvas canvas) {
@@ -105,6 +118,22 @@ import androidx.core.content.ContextCompat;
     public void update(){
         //update game state
         joystick.update();
-        player.update(joystick);
+        player.update();
+
+        //spawn enemy
+        if(Enemy.readyToSpawn()){
+            enemyList.add(new Enemy(getContext(), player));
+        }
+
+        for(Enemy enemy : enemyList){
+            enemy.update();
+        }
+
+        Iterator<Enemy> iteratorEnemy = enemyList.iterator();
+        while(iteratorEnemy.hasNext()){
+            if(Circle.isColliding(iteratorEnemy.next(), player)){
+                iteratorEnemy.remove();
+            }
+        }
     }
 }
