@@ -8,6 +8,7 @@ import com.example.dogdyfella.Player;
 public abstract class GameObject{
     protected double posX, posY;
     protected double velX, velY;
+    protected double directionX = 1, directionY;
 
     public GameObject(double posX, double posY){
         this.posX = posX;
@@ -30,4 +31,12 @@ public abstract class GameObject{
         return  Math.sqrt(Math.pow(obj2.getPosX() - obj1.getPosX(), 2)) +
                 Math.sqrt(Math.pow(obj2.getPosY() - obj1.getPosY(), 2));
     }
+
+    protected double getDirectionX() {
+        return directionX;
+    }
+    protected double getDirectionY() {
+        return directionY;
+    }
+
 }
