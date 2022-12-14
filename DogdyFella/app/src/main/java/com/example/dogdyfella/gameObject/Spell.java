@@ -1,11 +1,10 @@
-package com.example.dogdyfella.object;
+package com.example.dogdyfella.gameObject;
 
 import android.content.Context;
 
 import androidx.core.content.ContextCompat;
 
 import com.example.dogdyfella.GameLoop;
-import com.example.dogdyfella.Player;
 import com.example.dogdyfella.R;
 
 public class Spell extends Circle{
@@ -17,7 +16,7 @@ public class Spell extends Circle{
                         R.color.spell),
                 spellCaster.getPosX(),
                 spellCaster.getPosY(),
-                25);
+                10);
         velX = spellCaster.getDirectionX()*MAX_SPEED;
         velY = spellCaster.getDirectionY()*MAX_SPEED;
 

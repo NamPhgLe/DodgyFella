@@ -1,9 +1,11 @@
 
-package com.example.dogdyfella.object;
+package com.example.dogdyfella.gameObject;
 
 import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.Paint;
+
+import com.example.dogdyfella.GameDisplay;
 
 public abstract class Circle extends GameObject {
 
@@ -32,8 +34,8 @@ public abstract class Circle extends GameObject {
         return radius;
     }
 
-    public void draw(Canvas canvas) {
-        canvas.drawCircle((float) posX,(float) posY, (float) radius, paint);
+    public void draw(Canvas canvas, GameDisplay gameDisplay) {
+        canvas.drawCircle((float) gameDisplay.gameToDisplayCoordinatesX(posX),(float) gameDisplay.gameToDisplayCoordinatesY(posY), (float) radius, paint);
     }
 
 }

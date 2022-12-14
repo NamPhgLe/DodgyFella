@@ -1,13 +1,17 @@
-package com.example.dogdyfella;
+package com.example.dogdyfella.gameObject;
 
 import android.content.Context;
 import android.graphics.Canvas;
-import android.graphics.Paint;
 
 import androidx.core.content.ContextCompat;
 
-import com.example.dogdyfella.object.Circle;
-import com.example.dogdyfella.object.GameObject;
+import com.example.dogdyfella.GameDisplay;
+import com.example.dogdyfella.GameLoop;
+import com.example.dogdyfella.R;
+import com.example.dogdyfella.Utils;
+import com.example.dogdyfella.gameObject.Circle;
+import com.example.dogdyfella.gamepanel.HealthBar;
+import com.example.dogdyfella.gamepanel.Joystick;
 
 public class Player extends Circle {
     public static final double SPEED_PIXELS_PER_SECOND = 400.0;
@@ -53,9 +57,9 @@ public class Player extends Circle {
         return posY;
     }
 
-    public void draw(Canvas canvas){
-        super.draw(canvas);
-        healthBar.draw(canvas);
+    public void draw(Canvas canvas, GameDisplay gameDisplay){
+        super.draw(canvas, gameDisplay);
+        healthBar.draw(canvas, gameDisplay);
     }
 
     public int getHealthPoints() {

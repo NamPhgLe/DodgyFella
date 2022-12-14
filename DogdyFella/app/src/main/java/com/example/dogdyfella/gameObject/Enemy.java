@@ -1,5 +1,5 @@
 
-package com.example.dogdyfella.object;
+package com.example.dogdyfella.gameObject;
 
 
 import android.content.Context;
@@ -7,7 +7,6 @@ import android.content.Context;
 import androidx.core.content.ContextCompat;
 
 import com.example.dogdyfella.GameLoop;
-import com.example.dogdyfella.Player;
 import com.example.dogdyfella.R;
 
 public class Enemy extends Circle {
@@ -29,7 +28,7 @@ public class Enemy extends Circle {
                 R.color.enemy),
                 Math.random()*1000,
                 Math.random()*1000,
-                30);
+                15);
         this.player = player;
     }
     //checks if enemy should spawn (for number of spawns per min)

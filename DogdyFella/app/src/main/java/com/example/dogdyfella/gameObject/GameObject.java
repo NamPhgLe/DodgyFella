@@ -1,9 +1,9 @@
 
-package com.example.dogdyfella.object;
+package com.example.dogdyfella.gameObject;
 
 import android.graphics.Canvas;
 
-import com.example.dogdyfella.Player;
+import com.example.dogdyfella.GameDisplay;
 
 public abstract class GameObject{
     protected double posX, posY;
@@ -15,15 +15,15 @@ public abstract class GameObject{
         this.posY = posY;
     }
 
-    public abstract void draw(Canvas canvas);
+    public abstract void draw(Canvas canvas, GameDisplay gameDisplay);
 
     public abstract void update();
 
-    protected double getPosX() {
+    public double getPosX() {
         return posX;
     }
 
-    protected double getPosY() {
+    public double getPosY() {
         return posY;
     }
 

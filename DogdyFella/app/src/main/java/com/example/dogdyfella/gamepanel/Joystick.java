@@ -1,4 +1,4 @@
-package com.example.dogdyfella;
+package com.example.dogdyfella.gamepanel;
 
 import android.content.Context;
 import android.graphics.Canvas;
@@ -7,6 +7,9 @@ import android.graphics.Paint;
 import android.text.method.Touch;
 
 import androidx.core.content.ContextCompat;
+
+import com.example.dogdyfella.R;
+import com.example.dogdyfella.Utils;
 
 public class Joystick {
 

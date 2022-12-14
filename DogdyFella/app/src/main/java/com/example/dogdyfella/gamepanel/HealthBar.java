@@ -1,4 +1,4 @@
-package com.example.dogdyfella;
+package com.example.dogdyfella.gamepanel;
 
 import android.content.Context;
 import android.graphics.Canvas;
@@ -6,13 +6,17 @@ import android.graphics.Paint;
 
 import androidx.core.content.ContextCompat;
 
+import com.example.dogdyfella.GameDisplay;
+import com.example.dogdyfella.gameObject.Player;
+import com.example.dogdyfella.R;
+
 /*
  * Health bar displays player health bar to screen
  */
- class HealthBar {
-     private Player player;
-     private int width, height, margin;
-     private Paint borderPaint, healthPaint;
+public class HealthBar {
+    private Player player;
+    private int width, height, margin;
+    private Paint borderPaint, healthPaint;
 
     public HealthBar(Context context, Player player){
         this.player = player;
@@ -29,19 +33,22 @@ import androidx.core.content.ContextCompat;
         healthPaint.setColor(healthColor);
     }
 
-    public void draw(Canvas canvas) {
+    public void draw(Canvas canvas, GameDisplay gameDisplay) {
         float x = (float) player.getPosX();
         float y = (float) player.getPosY();
         float distanceToPlayer = 40;
         float healthPointsPercentage = (float) player.getHealthPoints()/player.MAX_HEALTH_POINTS;
-        
+
         //draw health border
 
         float borderLeft = x - width/2,
-              borderRight = x + width/2,
-              borderBottom = y - distanceToPlayer,
-              borderTop = borderBottom - height;
-        canvas.drawRect(borderLeft, borderTop, borderRight, borderBottom, borderPaint);
+                borderRight = x + width/2,
+                borderBottom = y - distanceToPlayer,
+                borderTop = borderBottom - height;
+        canvas.drawRect((float) gameDisplay.gameToDisplayCoordinatesX(borderLeft),
+                        (float) gameDisplay.gameToDisplayCoordinatesY(borderTop),
+                        (float) gameDisplay.gameToDisplayCoordinatesX(borderRight),
+                        (float) gameDisplay.gameToDisplayCoordinatesY(borderBottom), borderPaint);
         //draw health
         float healthWidth = width - 2*margin,
                 healthHeight = height - 2*margin,
@@ -50,6 +57,9 @@ import androidx.core.content.ContextCompat;
                 healthBottom = borderBottom - margin,
                 healthTop = healthBottom - healthHeight;
 
-        canvas.drawRect(healthLeft, healthTop, healthRight, healthBottom, healthPaint);
+        canvas.drawRect((float) gameDisplay.gameToDisplayCoordinatesX(healthLeft),
+                        (float) gameDisplay.gameToDisplayCoordinatesY(healthTop),
+                        (float) gameDisplay.gameToDisplayCoordinatesX(healthRight),
+                        (float) gameDisplay.gameToDisplayCoordinatesY(healthBottom), healthPaint);
     }
 }
