@@ -12,6 +12,7 @@ import com.example.dogdyfella.Utils;
 import com.example.dogdyfella.gameObject.Circle;
 import com.example.dogdyfella.gamepanel.HealthBar;
 import com.example.dogdyfella.gamepanel.Joystick;
+import com.example.dogdyfella.graphics.Sprite;
 
 public class Player extends Circle {
     public static final double SPEED_PIXELS_PER_SECOND = 400.0;
@@ -20,12 +21,14 @@ public class Player extends Circle {
     private Joystick joystick;
     private HealthBar healthBar;
     private int healthPoints;
+    private Sprite sprite;
 
-    public Player(Context context, Joystick joystick, double posX, double posY, double radius) {
+    public Player(Context context, Joystick joystick, double posX, double posY, double radius, Sprite sprite) {
         super(context, ContextCompat.getColor(context, R.color.player), posX, posY, radius);
         this.joystick = joystick;
         this.healthBar = new HealthBar(context, this);
         this.healthPoints = MAX_HEALTH_POINTS;
+        this.sprite = sprite;
     }
 
     @Override
@@ -58,7 +61,9 @@ public class Player extends Circle {
     }
 
     public void draw(Canvas canvas, GameDisplay gameDisplay){
-        super.draw(canvas, gameDisplay);
+        //super.draw(canvas, gameDisplay);
+
+        sprite.draw(canvas, (int) (gameDisplay.gameToDisplayCoordinatesX(getPosX()) - sprite.getWidth()/2), ((int) gameDisplay.gameToDisplayCoordinatesY(getPosY()) - sprite.getHeight()/2));
         healthBar.draw(canvas, gameDisplay);
     }
 

@@ -18,6 +18,7 @@ import com.example.dogdyfella.gameObject.Spell;
 import com.example.dogdyfella.gamepanel.GameOver;
 import com.example.dogdyfella.gamepanel.Joystick;
 import com.example.dogdyfella.gamepanel.Performance;
+import com.example.dogdyfella.graphics.SpriteSheet;
 
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -52,7 +53,8 @@ class Game extends SurfaceView implements SurfaceHolder.Callback {
         performance = new Performance(context, gameLoop);
         gameOver = new GameOver(context);
         joystick = new Joystick(context,100,500, 60, 30);
-        player = new Player(context, joystick, 500, 500, 15);
+        SpriteSheet spriteSheet = new SpriteSheet(context);
+        player = new Player(context, joystick, 500, 500, 15, spriteSheet.getPlayerSprite());
         DisplayMetrics displayMetrics = new DisplayMetrics();
         ((Activity) getContext()).getWindowManager().getDefaultDisplay().getMetrics(displayMetrics);
         gameDisplay = new GameDisplay(displayMetrics.widthPixels, displayMetrics.heightPixels, player);

@@ -37,6 +37,6 @@ public class Performance {
         int color = ContextCompat.getColor(context, R.color.magenta);
         paint.setColor(color);
         paint.setTextSize(10);
-        canvas.drawText("FPS" + averageFPS, 30, 10, paint);
+        canvas.drawText("FPS" + averageFPS, 20, 20, paint);
     }
 }
