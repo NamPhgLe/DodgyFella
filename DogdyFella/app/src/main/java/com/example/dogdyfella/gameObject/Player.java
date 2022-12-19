@@ -12,6 +12,7 @@ import com.example.dogdyfella.Utils;
 import com.example.dogdyfella.gameObject.Circle;
 import com.example.dogdyfella.gamepanel.HealthBar;
 import com.example.dogdyfella.gamepanel.Joystick;
+import com.example.dogdyfella.graphics.Animator;
 import com.example.dogdyfella.graphics.Sprite;
 
 public class Player extends Circle {
@@ -21,14 +22,16 @@ public class Player extends Circle {
     private Joystick joystick;
     private HealthBar healthBar;
     private int healthPoints;
-    private Sprite sprite;
+    private Animator animator;
+    private PlayerState playerState;
 
-    public Player(Context context, Joystick joystick, double posX, double posY, double radius, Sprite sprite) {
+    public Player(Context context, Joystick joystick, double posX, double posY, double radius, Animator animator) {
         super(context, ContextCompat.getColor(context, R.color.player), posX, posY, radius);
         this.joystick = joystick;
         this.healthBar = new HealthBar(context, this);
         this.healthPoints = MAX_HEALTH_POINTS;
-        this.sprite = sprite;
+        this.animator = animator;
+        this.playerState = new PlayerState(this);
     }
 
     @Override
@@ -45,6 +48,8 @@ public class Player extends Circle {
             directionX = velX/distance;
             directionY = velY/distance;
         }
+
+        playerState.update();
     }
 
     public void setPosition(double positionX, double positionY) {
@@ -62,8 +67,7 @@ public class Player extends Circle {
 
     public void draw(Canvas canvas, GameDisplay gameDisplay){
         //super.draw(canvas, gameDisplay);
-
-        sprite.draw(canvas, (int) (gameDisplay.gameToDisplayCoordinatesX(getPosX()) - sprite.getWidth()/2), ((int) gameDisplay.gameToDisplayCoordinatesY(getPosY()) - sprite.getHeight()/2));
+        animator.draw(canvas, gameDisplay, this);
         healthBar.draw(canvas, gameDisplay);
     }
 
@@ -75,6 +79,10 @@ public class Player extends Circle {
         if(healthPoints >= 0) {
             this.healthPoints = healthPoints;
         }
+    }
+
+    public PlayerState getPlayerState() {
+        return playerState;
     }
 }
 

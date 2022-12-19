@@ -11,6 +11,7 @@ import android.view.SurfaceView;
 
 import androidx.annotation.NonNull;
 
+import com.example.dogdyfella.Map.Tilemap;
 import com.example.dogdyfella.gameObject.Circle;
 import com.example.dogdyfella.gameObject.Enemy;
 import com.example.dogdyfella.gameObject.Player;
@@ -18,6 +19,7 @@ import com.example.dogdyfella.gameObject.Spell;
 import com.example.dogdyfella.gamepanel.GameOver;
 import com.example.dogdyfella.gamepanel.Joystick;
 import com.example.dogdyfella.gamepanel.Performance;
+import com.example.dogdyfella.graphics.Animator;
 import com.example.dogdyfella.graphics.SpriteSheet;
 
 import java.util.ArrayList;
@@ -28,6 +30,7 @@ import java.util.List;
  * Game manages all objects in the game and is responsible for running all states and rendering of game
  */
 class Game extends SurfaceView implements SurfaceHolder.Callback {
+    private final Tilemap tilemap;
     private Joystick joystick;
     private Player player;
     private GameLoop gameLoop;
@@ -49,16 +52,24 @@ class Game extends SurfaceView implements SurfaceHolder.Callback {
         gameLoop = new GameLoop(this, surfaceHolder);
 
 
-        //Initialize game objects
+        //Initialize game panels
         performance = new Performance(context, gameLoop);
         gameOver = new GameOver(context);
         joystick = new Joystick(context,100,500, 60, 30);
+
+        //Initialize game objects
         SpriteSheet spriteSheet = new SpriteSheet(context);
-        player = new Player(context, joystick, 500, 500, 15, spriteSheet.getPlayerSprite());
+        Animator animator = new Animator(spriteSheet.getPlayerSpriteArray());
+        player = new Player(context, joystick, 500, 500, 15, animator);
+
+       //Initialize display and center it around player
         DisplayMetrics displayMetrics = new DisplayMetrics();
         ((Activity) getContext()).getWindowManager().getDefaultDisplay().getMetrics(displayMetrics);
         gameDisplay = new GameDisplay(displayMetrics.widthPixels, displayMetrics.heightPixels, player);
         setFocusable(true);
+
+        //Initialize Tilemap
+        tilemap = new Tilemap(spriteSheet);
     }
 
     @Override
@@ -115,6 +126,8 @@ class Game extends SurfaceView implements SurfaceHolder.Callback {
     @Override
     public void draw(Canvas canvas) {
         super.draw(canvas);
+        tilemap.draw(canvas, gameDisplay);
+
         performance.draw(canvas);
         joystick.draw(canvas);
         player.draw(canvas, gameDisplay);
